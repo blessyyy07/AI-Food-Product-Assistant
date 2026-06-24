@@ -187,19 +187,13 @@ def recommend_products(goal):
         if values is None:
             continue
 
-        results.append(
-            (
-                product,
-                values
-            )
-        )
+        results.append((product, values))
 
     if goal == "protein":
 
         results = sorted(
             results,
-            key=lambda x:
-            x[1]["Protein"],
+            key=lambda x: x[1]["Protein"],
             reverse=True
         )
 
@@ -207,26 +201,7 @@ def recommend_products(goal):
 
         results = sorted(
             results,
-            key=lambda x:
-            x[1]["Fiber"],
-            reverse=True
-        )
-
-    elif goal == "fat":
-
-        results = sorted(
-            results,
-            key=lambda x:
-            x[1]["Fat"],
-            reverse=True
-        )
-
-    elif goal == "carbs":
-
-        results = sorted(
-            results,
-            key=lambda x:
-            x[1]["carbs"],
+            key=lambda x: x[1]["Fiber"],
             reverse=True
         )
 
@@ -234,37 +209,37 @@ def recommend_products(goal):
 
         results = sorted(
             results,
-            key=lambda x:
-            x[1]["Calcium"],
+            key=lambda x: x[1]["Calcium"],
+            reverse=True
+        )
+
+    elif goal == "carbs":
+
+        results = sorted(
+            results,
+            key=lambda x: x[1]["Carbs"],
+            reverse=True
+        )
+
+    elif goal == "fat":
+
+        results = sorted(
+            results,
+            key=lambda x: x[1]["Fat"],
             reverse=True
         )
 
     else:
 
-        return """
-Enter:
-
-protein
-
-fiber
-
-fat
-
-carbs
-
-or
-
-calcium
-"""
+        return "Invalid Goal"
 
     output = ""
 
     for product, values in results[:5]:
 
         output += (
-            f"{product}"
-            f" | "
-            f"{goal.capitalize()}: "
+            f"{product} | "
+            f"{goal.capitalize()} : "
             f"{values[goal.capitalize()]}\n"
         )
 
@@ -556,23 +531,29 @@ recommend_tab = gr.Interface(
     fn=recommend_products,
 
     inputs=gr.Dropdown(
+
         [
             "protein",
-            "fiber",
-            " fat",
+            "fat",
             "carbs",
+            "fiber",
             "calcium"
         ],
+
         label="Select Goal"
+
     ),
 
     outputs=gr.Textbox(
-        label="Recommended Product"
+
+        label="Recommended Products"
+
     ),
 
     title="Product Recommendation",
 
     description="Get top products based on nutrition goal."
+
 )
 nutrition_tab = gr.Interface(
 
