@@ -247,6 +247,27 @@ calcium
         )
 
     return output
+def nutrition_calculator(protein, fat, carbs):
+
+    calories = (
+        protein * 4
+        +
+        fat * 9
+        +
+        carbs * 4
+    )
+
+    return f"""
+NUTRITION CALCULATOR
+
+Protein : {protein} g
+
+Fat : {fat} g
+
+Carbohydrates : {carbs} g
+
+Total Calories : {round(calories,2)} kcal
+"""
 def generate_report(product):
 
     values = get_product_values(product)
@@ -455,10 +476,8 @@ Features:
 ✓ Excel Report Generator
 ✓ FSSAI Claims
 ✓ Nutrition Label Generator
+✓ Nutrition Calculator
 
- Project Status:
-Phase 1 Completed
-Phase 2 Website Development
 """, 
     inputs=None,
 
@@ -507,6 +526,35 @@ recommend_tab = gr.Interface(
     title="Product Recommendation",
 
     description="Get top products based on nutrition goal."
+)
+nutrition_tab = gr.Interface(
+
+    fn=nutrition_calculator,
+
+    inputs=[
+
+        gr.Number(
+            label="Protein (g)"
+        ),
+
+        gr.Number(
+            label="Fat (g)"
+        ),
+
+        gr.Number(
+            label="Carbohydrates (g)"
+        )
+
+    ],
+
+    outputs=gr.Textbox(
+        label="Nutrition Result"
+    ),
+
+    title="Nutrition Calculator",
+
+    description="Calculate total calories from Protein, Fat and Carbohydrates."
+
 )
 report_tab = gr.Interface(
 
@@ -620,7 +668,8 @@ app = gr.TabbedInterface(
         dashboard_tab,
         report_tab,
         claim_tab,
-        label_tab
+        label_tab,
+        nutrition_tab
 
     ],
 
@@ -634,10 +683,13 @@ app = gr.TabbedInterface(
         "📈 Dashboard",
         "📄 Reports",
         "✅ FSSAI Claims",
-        "🏷️ Nutrition Label"
+        "🏷️ Nutrition Label",
+        "🔥 Nutrition Calculator"
 
     ]
+
 )
+
 app.launch(
     share=True
-    )
+)
