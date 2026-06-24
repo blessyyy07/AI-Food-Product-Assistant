@@ -291,7 +291,76 @@ def generate_report(product):
     )
 
     return filename
+def fssai_claim_checker(product):
 
+    values = get_product_values(product)
+
+    if values is None:
+        return "Product Not Found"
+
+    protein = values["Protein"]
+
+    if protein >= 12:
+
+        return f"""
+PRODUCT : {product}
+
+PROTEIN : {protein} g
+
+FSSAI CLAIM:
+✅ HIGH PROTEIN
+"""
+
+    elif protein >= 6:
+
+        return f"""
+PRODUCT : {product}
+
+PROTEIN : {protein} g
+
+FSSAI CLAIM:
+✅ SOURCE OF PROTEIN
+"""
+
+    else:
+
+        return f"""
+PRODUCT : {product}
+
+PROTEIN : {protein} g
+
+❌ NO PROTEIN CLAIM ALLOWED
+"""
+def nutrition_label(product):
+
+    values = get_product_values(product)
+
+    if values is None:
+        return "Product Not Found"
+
+    return f"""
+==================================
+
+        NUTRITION FACTS
+
+==================================
+
+Product : {product}
+
+Protein  : {values['Protein']} g
+
+Fat      : {values['Fat']} g
+
+Carbs    : {values['Carbs']} g
+
+Fiber    : {values['Fiber']} g
+
+Calcium  : {values['Calcium']} mg
+
+Iron     : {values['Iron']} mg
+
+==================================
+"""
 import matplotlib.pyplot as plt
 def nutrition_dashboard():
 
@@ -453,6 +522,38 @@ report_tab = gr.Interface(
 
     description="Generate downloadable nutrition reports."
 
+)
+claim_tab = gr.Interface(
+
+    fn=fssai_claim_checker,
+
+    inputs=gr.Textbox(
+        label="Enter Product Name"
+    ),
+
+    outputs=gr.Textbox(
+        label="FSSAI Claim Result"
+    ),
+
+    title="FSSAI Claim Checker",
+
+    description="Check Protein Claims as per FSSAI."
+)
+label_tab = gr.Interface(
+
+    fn=nutrition_label,
+
+    inputs=gr.Textbox(
+        label="Enter Product Name"
+    ),
+
+    outputs=gr.Textbox(
+        label="Nutrition Label"
+    ),
+
+    title="Nutrition Label Generator",
+
+    description="Generate Nutrition Facts Label."
 )
 dashboard_tab = gr.Interface(
 
