@@ -453,6 +453,8 @@ Features:
 ✓ Product Recommendation
 ✓ Dashboard Analytics
 ✓ Excel Report Generator
+✓ FSSAI Claims
+✓ Nutrition Label Generator
 
  Project Status:
 Phase 1 Completed
