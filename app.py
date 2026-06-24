@@ -212,6 +212,24 @@ def recommend_products(goal):
             reverse=True
         )
 
+    elif goal == "fat":
+
+        results = sorted(
+            results,
+            key=lambda x:
+            x[1]["Fat"],
+            reverse=True
+        )
+
+    elif goal == "carbs":
+
+        results = sorted(
+            results,
+            key=lambda x:
+            x[1]["carbs"],
+            reverse=True
+        )
+
     elif goal == "calcium":
 
         results = sorted(
@@ -229,6 +247,10 @@ Enter:
 protein
 
 fiber
+
+fat
+
+carbs
 
 or
 
@@ -320,39 +342,61 @@ def fssai_claim_checker(product):
         return "Product Not Found"
 
     protein = values["Protein"]
+    fat = values["Fat"]
+    carbs = values["Carbs"]
+    fiber = values["Fiber"]
 
+    claims = []
+
+    # Protein Claims
     if protein >= 12:
-
-        return f"""
-PRODUCT : {product}
-
-PROTEIN : {protein} g
-
-FSSAI CLAIM:
-✅ HIGH PROTEIN
-"""
+        claims.append("✅ HIGH PROTEIN")
 
     elif protein >= 6:
+        claims.append("✅ SOURCE OF PROTEIN")
 
-        return f"""
+    # Fiber Claims
+    if fiber >= 6:
+        claims.append("✅ HIGH FIBER")
+
+    elif fiber >= 3:
+        claims.append("✅ SOURCE OF FIBER")
+
+    # Fat Claims
+    if fat <= 3:
+        claims.append("✅ LOW FAT")
+
+    # Carbohydrate Claims
+    if carbs <= 5:
+        claims.append("✅ LOW CARBOHYDRATE")
+
+    if len(claims) == 0:
+        claims.append("❌ NO CLAIM IDENTIFIED")
+
+    return f"""
 PRODUCT : {product}
 
 PROTEIN : {protein} g
 
-FSSAI CLAIM:
-✅ SOURCE OF PROTEIN
-"""
+FAT : {fat} g
 
-    else:
+CARBOHYDRATES : {carbs} g
 
-        return f"""
-PRODUCT : {product}
+FIBER : {fiber} g
 
-PROTEIN : {protein} g
+--------------------------------
 
-❌ NO PROTEIN CLAIM ALLOWED
-"""
-def nutrition_label(product):
+POSSIBLE CLAIMS
+
+{chr(10).join(claims)}
+
+--------------------------------
+
+Note:
+Claims are preliminary estimates based on
+formulation values and are intended for
+educational and product development purposes.
+"""def nutrition_label(product):
 
     values = get_product_values(product)
 
@@ -514,6 +558,8 @@ recommend_tab = gr.Interface(
         [
             "protein",
             "fiber",
+            " fat",
+            "carbs"
             "calcium"
         ],
         label="Select Goal"
@@ -578,16 +624,20 @@ claim_tab = gr.Interface(
     fn=fssai_claim_checker,
 
     inputs=gr.Textbox(
-        label="Enter Product Name"
+        label="Enter Product Name",
+        placeholder="Example: High Protein Cookie"
     ),
 
     outputs=gr.Textbox(
-        label="FSSAI Claim Result"
+        label="Claim Analysis"
     ),
 
     title="FSSAI Claim Checker",
 
-    description="Check Protein Claims as per FSSAI."
+    description="""
+Check possible nutrition claims based on
+Protein, Fat, Carbohydrates and Fiber content.
+"""
 )
 label_tab = gr.Interface(
 
