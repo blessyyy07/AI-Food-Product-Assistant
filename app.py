@@ -560,7 +560,7 @@ recommend_tab = gr.Interface(
             "protein",
             "fiber",
             " fat",
-            "carbs"
+            "carbs",
             "calcium"
         ],
         label="Select Goal"
