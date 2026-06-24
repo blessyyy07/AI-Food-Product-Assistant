@@ -396,7 +396,8 @@ Note:
 Claims are preliminary estimates based on
 formulation values and are intended for
 educational and product development purposes.
-"""def nutrition_label(product):
+"""
+def nutrition_label(product):
 
     values = get_product_values(product)
 
