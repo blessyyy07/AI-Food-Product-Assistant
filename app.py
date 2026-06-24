@@ -91,8 +91,7 @@ def get_product_values(product):
         "Iron": round(total_iron,2),
         "Cost": round(total_cost,2)
     }
-
- def food_search(food):
+def food_search(food):
 
     result = foods[
         foods["foods"].str.lower().str.strip()
@@ -118,7 +117,6 @@ Iron : {result.iloc[0]['iron']} mg
 
 Cost : ₹{result.iloc[0]['cost']}/kg
 """
-
 def product_search(product):
 
     values = get_product_values(product)
@@ -141,7 +139,6 @@ Iron : {values['Iron']} mg
 
 Cost : ₹{values['Cost']}/kg
 """
-
 def compare_products(product1, product2):
 
     p1 = get_product_values(product1)
@@ -177,7 +174,6 @@ Iron:
 Cost:
 ₹{p1['Cost']} vs ₹{p2['Cost']}
 """
-
 def recommend_products(goal):
 
     goal = goal.lower()
@@ -251,7 +247,6 @@ calcium
         )
 
     return output
-
 def generate_report(product):
 
     values = get_product_values(product)
@@ -298,7 +293,6 @@ def generate_report(product):
     return filename
 
 import matplotlib.pyplot as plt
-
 def nutrition_dashboard():
 
     products = []
@@ -372,8 +366,6 @@ def nutrition_dashboard():
     )
 
     return "nutrition_dashboard.png"
-
-
 home_tab = gr.Interface(
 
     fn=lambda: """
@@ -404,7 +396,6 @@ Phase 2 Website Development
     title="Home"
 
 )
-
 compare_tab = gr.Interface(
     fn=compare_products,
 
@@ -425,7 +416,6 @@ compare_tab = gr.Interface(
 
     description="Compare nutrition and cost of two products."
 )
-
 recommend_tab = gr.Interface(
 
     fn=recommend_products,
@@ -447,7 +437,6 @@ recommend_tab = gr.Interface(
 
     description="Get top products based on nutrition goal."
 )
-
 report_tab = gr.Interface(
 
     fn=generate_report,
@@ -465,7 +454,6 @@ report_tab = gr.Interface(
     description="Generate downloadable nutrition reports."
 
 )
-
 dashboard_tab = gr.Interface(
 
     fn=nutrition_dashboard,
@@ -479,7 +467,6 @@ dashboard_tab = gr.Interface(
     description="Protein Analysis Dashboard"
 
 )
-
 food_tab = gr.Interface(
 
     fn=food_search,
@@ -498,7 +485,6 @@ food_tab = gr.Interface(
     description="Search nutritional information of food ingredients."
 
 )
-
 product_tab = gr.Interface(
 
     fn=product_search,
