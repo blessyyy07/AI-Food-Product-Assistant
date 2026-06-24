@@ -609,24 +609,33 @@ product_tab = gr.Interface(
 app = gr.TabbedInterface(
 
     [
+
         home_tab,
         food_tab,
         product_tab,
         compare_tab,
         recommend_tab,
         dashboard_tab,
-        report_tab
+        report_tab,
+        claim_tab,
+        label_tab
+
     ],
 
     [
+
         "🏠 Home",
         "🔍 Food Search",
         "📊 Product Calculator",
         "⚖️ Comparison",
         "🎯 Recommendation",
         "📈 Dashboard",
-        "📄 Reports"
+        "📄 Reports",
+        "✅ FSSAI Claims",
+        "🏷️ Nutrition Label"
+
     ]
 )
-
-app.launch()
+app.launch(
+    share=True
+    )
